@@ -108,11 +108,11 @@ namespace TwitterCloneAPI.Controllers
 
         [HttpPut]
         [Route("like/{id}")]
-        public async Task<IActionResult> UpdateTweetLike(int id)
+        public async Task<IActionResult> UpdateTweetLike(int id, [FromBody] User user)
         {
             try
             {
-                Tweet res = await _repo.UpdateTweetLikesAsync(id);
+                Tweet res = await _repo.UpdateTweetLikesAsync(id, user);
                 if (res == null)
                 {
                     return NotFound();
@@ -151,6 +151,7 @@ namespace TwitterCloneAPI.Controllers
                 return StatusCode(500);
             }
         }
+
 
     }
 }

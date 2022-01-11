@@ -23,16 +23,17 @@ namespace TwitterCloneAPI.Data.Interface
         Task<Tweet> GetTweetByIdAsync(int id);
         Task CreateTweetAsync(Tweet tweet);
         Task<Tweet> UpdateTweetContentAsync(int id, Tweet tweet);
-        Task<Tweet> UpdateTweetLikesAsync(int id);
+        Task<Tweet> UpdateTweetLikesAsync(int id, User user);
         Task<bool> DeleteTweetAsync(int id);
 
 
+
         // Reply
-        //Task<List<Reply>> GetAllTweetsAsync();
+        Task<List<Reply>> GetAllRepliesAsync();
         Task<Reply> GetReplyByIdAsync(int id);
         Task CreateReplyAsync(Reply reply);
         Task<Reply> UpdateReplyContentAsync(int id, Reply reply);
-        Task<Reply> UpdateReplyLikesAsync(int id);
+        Task<Reply> UpdateReplyLikesAsync(int id, User user);
         Task<bool> DeleteReplyAsync(int id);
 
     }

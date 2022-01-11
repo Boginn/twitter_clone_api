@@ -38,14 +38,16 @@ namespace TwitterCloneAPI
                         .Build());
 
             });
+
             services.AddControllers();
+
             services.AddScoped<IRepository, TwitterRepository>();
-            
-            
-            //services.AddCors(opt => opt.AddDefaultPolicy(b => b.WithOrigins("http://localhost:8080/")));
 
-
-            services.AddControllersWithViews().AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services
+                .AddControllersWithViews()
+                .AddNewtonsoftJson(
+                options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

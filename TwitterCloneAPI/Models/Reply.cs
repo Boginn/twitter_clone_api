@@ -10,25 +10,29 @@ namespace TwitterCloneAPI.Models
     {
         public Reply()
         {
-            //Tweets = new List<Tweet> { get; set; };
-            //Replies = new List<Reply> { get; set; };
+
         }
 
         public int Id { get; set; }
 
-        public int Likes { get; set; }
-
-        public string Date { get; set; }
-
-
-
-        public virtual int? UserId { get; set; }
-        
-        public virtual int? TweetId { get; set; }
+        public string Recipient { get; set; }
 
         [Required]
         [MaxLength(280)]
         public string Content { get; set; }
+
+        [Required]
+        public virtual int? UserId { get; set; }
+
+        [Required]
+        public virtual int? TweetId { get; set; }
+
+        [Required]
+        public string Date { get; set; }
+
+
+
+        public List<ReplyLike> ReplyLikes { get; set; } = new List<ReplyLike>();
 
     }
 }

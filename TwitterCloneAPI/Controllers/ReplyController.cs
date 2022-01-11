@@ -20,7 +20,7 @@ namespace TwitterCloneAPI.Controllers
 
 
         /** Get **/
-        /*
+        
         [HttpGet]
         public async Task<ActionResult<List<Reply>>> GetAllRepliesAsync()
         {
@@ -34,7 +34,7 @@ namespace TwitterCloneAPI.Controllers
                 return StatusCode(500);
             }
         }
-        */
+        
         [HttpGet]
         [Route("{id}")]
         public async Task<ActionResult<Reply>> GetReplyById(int id)
@@ -60,6 +60,7 @@ namespace TwitterCloneAPI.Controllers
         /** Post **/
 
         [HttpPost]
+        [Route("create")]
         public async Task<IActionResult> CreateReply([FromBody] Reply reply)
         {
             try
@@ -106,11 +107,11 @@ namespace TwitterCloneAPI.Controllers
 
         [HttpPut]
         [Route("like/{id}")]
-        public async Task<IActionResult> UpdateReplyLike(int id)
+        public async Task<IActionResult> UpdateReplyLike(int id, [FromBody] User user)
         {
             try
             {
-                Reply res = await _repo.UpdateReplyLikesAsync(id);
+                Reply res = await _repo.UpdateReplyLikesAsync(id, user);
                 if (res == null)
                 {
                     return NotFound();

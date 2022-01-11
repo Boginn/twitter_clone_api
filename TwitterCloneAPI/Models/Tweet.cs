@@ -10,12 +10,13 @@ namespace TwitterCloneAPI.Models
     {
         public Tweet()
         {
-            //Tweets = new List<Tweet> { get; set; };
-            //Replies = new List<Reply> { get; set; };
+
         }
 
         public int Id { get; set; }
 
+
+        public string? Hashtag { get; set; }
 
         [Required]
         [MaxLength(280)]
@@ -24,19 +25,15 @@ namespace TwitterCloneAPI.Models
         [Required]
         public virtual int UserId { get; set; }
 
-        public int Likes { get; set; }
 
-        public string Trending { get; set; }
-
+        [Required]
         public string Date { get; set; }
 
 
 
 
-
-
-        // public List<User> Users { get; set; } = new List<User>();
-
         public List<Reply> Replies { get; set; } = new List<Reply>();
+        public List<TweetLike> TweetLikes { get; set; } = new List<TweetLike>();
+
     }
 }
