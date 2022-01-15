@@ -1,29 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TwitterCloneAPI.Models
+namespace TwitterCloneAPI.Models.DTO
 {
-    public class User
+    [NotMapped]
+    public class UserDTO
     {
-
-        public User()
-        {
-        }
 
         public int Id { get; set; }
 
-        [Required]
-        [MaxLength(18)]
         public string Name { get; set; }
-        [Required]
-        [MaxLength(18)]
         public string Handle { get; set; }
         public string Color { get; set; }
-
-        public string Password = "a_password_justifies_a_dto";
 
 
         public List<Follow> Follows{ get; set; } = new List<Follow>();
@@ -33,9 +24,5 @@ namespace TwitterCloneAPI.Models
 
         public List<TweetLike> TweetLikes { get; set; } = new List<TweetLike>();
         public List<ReplyLike> ReplyLikes { get; set; } = new List<ReplyLike>();
-
-
-
-
     }
 }

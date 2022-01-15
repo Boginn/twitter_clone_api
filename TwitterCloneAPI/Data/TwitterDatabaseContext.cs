@@ -14,7 +14,7 @@ namespace TwitterCloneAPI.Data
         public DbSet<Reply> Replies{ get; set; }
         public DbSet<TweetLike> TweetLikes { get; set; }
         public DbSet<ReplyLike> ReplyLikes { get; set; }
-
+        public DbSet<Follow> Follows { get; set; }
 
 
 

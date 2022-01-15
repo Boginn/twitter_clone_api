@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TwitterCloneAPI.Data.Interface;
 using TwitterCloneAPI.Models;
+using TwitterCloneAPI.Models.DTO;
 
 namespace TwitterCloneAPI.Data.Repository
 {
@@ -27,8 +28,10 @@ namespace TwitterCloneAPI.Data.Repository
                 InitializeReplies();
                 InitializeTweetLikes();
                 InitializeReplyLikes();
+                InitializeFollows();
             }
             */
+
 
 
 
@@ -205,18 +208,96 @@ namespace TwitterCloneAPI.Data.Repository
             }
         }
 
-
-        // User
-        public async Task<List<User>> GetAllUsersAsync()
+        public void InitializeFollows()
         {
-            using var db = _dbContext;
-            return await db.Users.ToListAsync();
+            List<Follow> follows = new List<Follow>() {
+                  new Follow() { UserId = 2, FollowerId = 1 },
+                  new Follow() { UserId = 6, FollowerId = 1 },
+                  new Follow() { UserId = 7, FollowerId = 1 },
+                  new Follow() { UserId = 1, FollowerId = 2 },
+                  new Follow() { UserId = 6, FollowerId = 2 },
+                  new Follow() { UserId = 7, FollowerId = 2 },
+                  new Follow() { UserId = 4, FollowerId = 3 },
+                  new Follow() { UserId = 7, FollowerId = 3 },
+                  new Follow() { UserId = 1, FollowerId = 4 },
+                  new Follow() { UserId = 2, FollowerId = 4 },
+                  new Follow() { UserId = 3, FollowerId = 4 },
+                  new Follow() { UserId = 5, FollowerId = 4 },
+                  new Follow() { UserId = 6, FollowerId = 4 },
+                  new Follow() { UserId = 7, FollowerId = 4 },
+                  new Follow() { UserId = 1, FollowerId = 5 },
+                  new Follow() { UserId = 2, FollowerId = 5 },
+                  new Follow() { UserId = 3, FollowerId = 5 },
+                  new Follow() { UserId = 4, FollowerId = 5 },
+                  new Follow() { UserId = 6, FollowerId = 5 },
+                  new Follow() { UserId = 7, FollowerId = 5 },
+                  new Follow() { UserId = 1, FollowerId = 6 },
+                  new Follow() { UserId = 2, FollowerId = 6 },
+                  new Follow() { UserId = 3, FollowerId = 6 },
+                  new Follow() { UserId = 5, FollowerId = 6 },
+                  new Follow() { UserId = 1, FollowerId = 7 },
+                  new Follow() { UserId = 6, FollowerId = 7 },
+            };
+
+            foreach (Follow f in follows)
+            {
+    
+                    _dbContext.Follows.Add(f);
+                    _dbContext.SaveChanges();
+                
+            }
         }
 
-        public async Task<User> GetUserByIdAsync(int id)
+
+        // User
+        public async Task<List<UserDTO>> GetAllUsersAsync()
         {
             using var db = _dbContext;
-            return await db.Users.Include(x => x.Tweets).Include(x => x.Replies).Include(x => x.TweetLikes).Include(x => x.ReplyLikes).FirstOrDefaultAsync(x => x.Id == id);
+            List<User> users = await db.Users.ToListAsync();
+
+
+            List<UserDTO> res = new List<UserDTO>();
+            foreach (User u in users)
+            {
+                res.Add(new UserDTO()
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    Handle = u.Handle,
+                    Color = u.Color,
+            });
+            }
+
+            return res;
+        }
+
+        public async Task<UserDTO> GetUserByIdAsync(int id)
+        {
+            using var db = _dbContext;
+            User u = await db.Users
+                .Include(x => x.Tweets)
+                .Include(x => x.Replies)
+                .Include(x => x.TweetLikes)
+                .Include(x => x.ReplyLikes)
+                .Include(x => x.Follows)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            UserDTO res = new UserDTO
+            {
+                Id = u.Id,
+                Name = u.Name,
+                Handle = u.Handle,
+                Color = u.Color,
+                Replies = u.Replies,
+                Tweets = u.Tweets,
+                TweetLikes = u.TweetLikes,
+                ReplyLikes = u.ReplyLikes,
+                Follows = u.Follows
+            };
+
+
+
+            return res;
         }
 
         public async Task CreateUserAsync(User user)
@@ -253,6 +334,42 @@ namespace TwitterCloneAPI.Data.Repository
             return res;
         }
 
+        public async Task<User> UpdateUserFollowsAsync(int id, User user)
+        {
+            using var db = _dbContext;
+            User res = await db.Users.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (res == null)
+            {
+                return null;
+            }
+
+            bool validated = (db.Follows.Where(
+                x => x.UserId == id &&
+                x.FollowerId == user.Id)
+                .ToList().Count == 0);
+            if (validated)
+            {
+                db.Follows.Add(new Follow() { UserId = res.Id, FollowerId = user.Id });
+
+            }
+            else
+            {
+                Follow itemToRemove = await db.Follows.FirstOrDefaultAsync(x => x.UserId == res.Id && x.FollowerId == user.Id);
+
+                if (itemToRemove != null)
+                {
+                    db.Follows.Remove(itemToRemove);
+                    await db.SaveChangesAsync();
+
+                }
+            }
+
+            await db.SaveChangesAsync();
+
+            return res;
+        }
+
         public async Task<bool> DeleteUserAsync(int id)
         {
             using var db = _dbContext;
@@ -263,6 +380,20 @@ namespace TwitterCloneAPI.Data.Repository
                 return false;
             } else
             {
+                var userFollowers= db.Follows.Where(x => x.UserId == res.Id).ToList();
+                foreach (var followers in userFollowers)
+                {
+                    db.Follows.Remove(followers);
+
+                }
+
+                var userFollows = db.Follows.Where(x => x.FollowerId == res.Id).ToList();
+                foreach (var follow in userFollows)
+                {
+                    db.Follows.Remove(follow);
+
+                }
+
                 var userTweetLikes = db.TweetLikes.Where(x => x.UserId == res.Id).ToList();
                 foreach (var like in userTweetLikes)
                 {
@@ -293,7 +424,7 @@ namespace TwitterCloneAPI.Data.Repository
 
                 }
 
-                var replies = db.Replies.Where(x => x.TweetId == res.Id).ToList();
+                var replies = db.Replies.Where(x => x.UserId == res.Id).ToList();
                 foreach (var reply in replies)
                 {
                     var replyLikes = db.ReplyLikes.Where(x => x.ReplyId == reply.Id).ToList();
@@ -523,6 +654,13 @@ namespace TwitterCloneAPI.Data.Repository
                 await db.SaveChangesAsync();
                 return true;
             }
+        }
+
+        // Follows
+        public async Task<List<Follow>> GetAllFollowsAsync()
+        {
+            using var db = _dbContext;
+            return await db.Follows.ToListAsync();
         }
 
 

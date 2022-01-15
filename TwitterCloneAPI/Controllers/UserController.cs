@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http.Cors;
 using TwitterCloneAPI.Data.Interface;
 using TwitterCloneAPI.Models;
+using TwitterCloneAPI.Models.DTO;
 
 namespace TwitterCloneAPI.Controllers
 {
@@ -23,11 +24,11 @@ namespace TwitterCloneAPI.Controllers
 
         /** Get **/
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetAllUsersAsync()
+        public async Task<ActionResult<List<UserDTO>>> GetAllUsersAsync()
         {
             try
             {
-                List<User> res = await _repo.GetAllUsersAsync();
+                List<UserDTO> res = await _repo.GetAllUsersAsync();
                 return Ok(res);
             }
             catch (Exception)
@@ -38,11 +39,11 @@ namespace TwitterCloneAPI.Controllers
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<ActionResult<User>> GetUserById(int id)
+        public async Task<ActionResult<UserDTO>> GetUserById(int id)
         {
             try
             {
-                User res = await _repo.GetUserByIdAsync(id);
+                UserDTO res = await _repo.GetUserByIdAsync(id);
                 if (res == null)
                 {
                     return NotFound();
@@ -91,6 +92,28 @@ namespace TwitterCloneAPI.Controllers
             try
             {
                 User res = await _repo.UpdateUserAsync(id, user);
+                if (res == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return CreatedAtAction(nameof(GetUserById), new { id = res.Id }, res);
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPut]
+        [Route("follow/{id}")]
+        public async Task<IActionResult> UpdateUserFollows(int id, [FromBody] User user)
+        {
+            try
+            {
+                User res = await _repo.UpdateUserFollowsAsync(id, user);
                 if (res == null)
                 {
                     return NotFound();

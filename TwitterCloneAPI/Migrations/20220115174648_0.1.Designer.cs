@@ -10,8 +10,8 @@ using TwitterCloneAPI.Data;
 namespace TwitterCloneAPI.Migrations
 {
     [DbContext(typeof(TwitterDatabaseContext))]
-    [Migration("20220111175209_i")]
-    partial class i
+    [Migration("20220115174648_0.1")]
+    partial class _01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,26 @@ namespace TwitterCloneAPI.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("TwitterCloneAPI.Models.Follow", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("FollowerId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Follows");
+                });
 
             modelBuilder.Entity("TwitterCloneAPI.Models.Reply", b =>
                 {
@@ -155,6 +175,14 @@ namespace TwitterCloneAPI.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("TwitterCloneAPI.Models.Follow", b =>
+                {
+                    b.HasOne("TwitterCloneAPI.Models.User", null)
+                        .WithMany("Follows")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("TwitterCloneAPI.Models.Reply", b =>
                 {
                     b.HasOne("TwitterCloneAPI.Models.Tweet", null)
@@ -219,6 +247,8 @@ namespace TwitterCloneAPI.Migrations
 
             modelBuilder.Entity("TwitterCloneAPI.Models.User", b =>
                 {
+                    b.Navigation("Follows");
+
                     b.Navigation("Replies");
 
                     b.Navigation("ReplyLikes");

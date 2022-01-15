@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TwitterCloneAPI.Models;
+using TwitterCloneAPI.Models.DTO;
 
 namespace TwitterCloneAPI.Data.Interface
 {
@@ -11,10 +12,12 @@ namespace TwitterCloneAPI.Data.Interface
     {
 
         // User
-        Task<List<User>> GetAllUsersAsync();
-        Task<User> GetUserByIdAsync(int id);
+        Task<List<UserDTO>> GetAllUsersAsync();
+        Task<UserDTO> GetUserByIdAsync(int id);
         Task CreateUserAsync(User user);
         Task<User> UpdateUserAsync(int id, User user);
+        Task<User> UpdateUserFollowsAsync(int id, User user);
+
         Task<bool> DeleteUserAsync(int id);
 
 
@@ -36,5 +39,8 @@ namespace TwitterCloneAPI.Data.Interface
         Task<Reply> UpdateReplyLikesAsync(int id, User user);
         Task<bool> DeleteReplyAsync(int id);
 
+
+        // Follow
+        Task<List<Follow>> GetAllFollowsAsync();
     }
 }
