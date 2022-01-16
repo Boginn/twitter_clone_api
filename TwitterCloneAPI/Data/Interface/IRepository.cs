@@ -14,6 +14,7 @@ namespace TwitterCloneAPI.Data.Interface
         // User
         Task<List<UserDTO>> GetAllUsersAsync();
         Task<UserDTO> GetUserByIdAsync(int id);
+        Task<UserDTO> GetUserByHandleAsync(string handle);
         Task CreateUserAsync(User user);
         Task<User> UpdateUserAsync(int id, User user);
         Task<User> UpdateUserFollowsAsync(int id, User user);

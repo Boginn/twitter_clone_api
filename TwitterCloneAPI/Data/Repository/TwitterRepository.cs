@@ -45,8 +45,8 @@ namespace TwitterCloneAPI.Data.Repository
                 new User() { Name = "Neo", Handle = "@theOne", Color = "blue" },
                 new User() { Name = "Trinity", Handle = "@falconhoof", Color = "red" },
                 new User() { Name = "Cypher", Handle = "@bliss", Color = "green" },
-                new User() { Name = "Architect", Handle = "@father", Color = "white" },
-                new User() { Name = "Oracle", Handle = "@mom", Color = "black" },
+                new User() { Name = "Architect", Handle = "@father", Color = "teal" },
+                new User() { Name = "Oracle", Handle = "@mom", Color = "pink" },
                 new User() { Name = "Morpheus", Handle = "@shepherd", Color = "indigo" },
                 new User() { Name = "Agent Smith", Handle = "@chaos", Color = "grey" },
 
@@ -113,11 +113,11 @@ namespace TwitterCloneAPI.Data.Repository
         {
             List<Reply> replies = new List<Reply>() {
                   new Reply() { Content = "This is not",
-                     UserId = 6, TweetId = 1, Date = new DateTime(2020, 2, 3, 23, 54, 44).ToString() },
+                     UserId = 6, TweetId = 1, Recipient = "@shepherd", Date = new DateTime(2020, 2, 3, 23, 54, 44).ToString() },
                   new Reply() { Content = "Skelter!",
-                      UserId = 2, TweetId = 2, Date = new DateTime(2020, 2, 19, 23, 42, 22).ToString() },
+                      UserId = 2, TweetId = 2, Recipient = "@shepherd", Date = new DateTime(2020, 2, 19, 23, 42, 22).ToString() },
                   new Reply() { Content = "Sappy...",
-                      UserId = 7, TweetId = 3, Date = new DateTime(2020, 2, 22, 20, 33, 8).ToString() },
+                      UserId = 7, TweetId = 3, Recipient = "@falconhoof", Date = new DateTime(2020, 2, 22, 20, 33, 8).ToString() },
 
 
             };
@@ -241,9 +241,15 @@ namespace TwitterCloneAPI.Data.Repository
 
             foreach (Follow f in follows)
             {
-    
+                bool validated = (_dbContext.Follows.Where(
+                    x => x.UserId == f.UserId && x.FollowerId == f.FollowerId)
+                    .ToList().Count == 0);
+                if (validated)
+                {
                     _dbContext.Follows.Add(f);
                     _dbContext.SaveChanges();
+                }
+
                 
             }
         }
@@ -255,6 +261,10 @@ namespace TwitterCloneAPI.Data.Repository
             using var db = _dbContext;
             List<User> users = await db.Users.ToListAsync();
 
+            if(users == null)
+            {
+                return null;
+            }
 
             List<UserDTO> res = new List<UserDTO>();
             foreach (User u in users)
@@ -267,6 +277,38 @@ namespace TwitterCloneAPI.Data.Repository
                     Color = u.Color,
             });
             }
+
+            return res;
+        }
+
+        public async Task<UserDTO> GetUserByHandleAsync(string handle)
+        {
+            using var db = _dbContext;
+            User u = await db.Users
+                .Include(x => x.Tweets)
+                .Include(x => x.Replies)
+                .Include(x => x.TweetLikes)
+                .Include(x => x.ReplyLikes)
+                .Include(x => x.Follows)
+                .FirstOrDefaultAsync(x => x.Handle == "@" + handle);
+
+            if (u == null)
+            {
+                return null;
+            }
+
+            UserDTO res = new UserDTO
+            {
+                Id = u.Id,
+                Name = u.Name,
+                Handle = u.Handle,
+                Color = u.Color,
+                Replies = u.Replies,
+                Tweets = u.Tweets,
+                TweetLikes = u.TweetLikes,
+                ReplyLikes = u.ReplyLikes,
+                Follows = u.Follows
+            };
 
             return res;
         }
@@ -294,8 +336,6 @@ namespace TwitterCloneAPI.Data.Repository
                 ReplyLikes = u.ReplyLikes,
                 Follows = u.Follows
             };
-
-
 
             return res;
         }

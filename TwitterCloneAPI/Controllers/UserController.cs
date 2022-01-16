@@ -38,7 +38,29 @@ namespace TwitterCloneAPI.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
+        [Route("{handle}")]
+        public async Task<ActionResult<UserDTO>> GetUserByHandle(string handle)
+        {
+            try
+            {
+                UserDTO res = await _repo.GetUserByHandleAsync(handle);
+                if (res == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(res);
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet]
+        [Route("id/{id}")]
         public async Task<ActionResult<UserDTO>> GetUserById(int id)
         {
             try
@@ -113,8 +135,12 @@ namespace TwitterCloneAPI.Controllers
         {
             try
             {
+
+   
+
                 User res = await _repo.UpdateUserFollowsAsync(id, user);
-                if (res == null)
+
+                if (res == null || id == res.Id)
                 {
                     return NotFound();
                 }

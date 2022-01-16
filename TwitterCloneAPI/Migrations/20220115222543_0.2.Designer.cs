@@ -10,8 +10,8 @@ using TwitterCloneAPI.Data;
 namespace TwitterCloneAPI.Migrations
 {
     [DbContext(typeof(TwitterDatabaseContext))]
-    [Migration("20220115174648_0.1")]
-    partial class _01
+    [Migration("20220115222543_0.2")]
+    partial class _02
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
