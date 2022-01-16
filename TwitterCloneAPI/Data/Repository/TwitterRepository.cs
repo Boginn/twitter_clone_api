@@ -17,26 +17,13 @@ namespace TwitterCloneAPI.Data.Repository
         {
             _dbContext = new TwitterDatabaseContext();
             /*
-            if(_dbContext.Users.ToList().Count == 0 && 
-                _dbContext.Tweets.ToList().Count == 0  && 
-                _dbContext.Replies.ToList().Count == 0 &&
-                _dbContext.TweetLikes.ToList().Count == 0 &&
-                _dbContext.ReplyLikes.ToList().Count == 0)
-            {
                 InitializeUsers();
                 InitializeTweets();
                 InitializeReplies();
                 InitializeTweetLikes();
                 InitializeReplyLikes();
                 InitializeFollows();
-            }
             */
-
-
-
-
-
-
         }
 
         public void InitializeUsers()
@@ -49,11 +36,7 @@ namespace TwitterCloneAPI.Data.Repository
                 new User() { Name = "Oracle", Handle = "@mom", Color = "pink" },
                 new User() { Name = "Morpheus", Handle = "@shepherd", Color = "indigo" },
                 new User() { Name = "Agent Smith", Handle = "@chaos", Color = "grey" },
-
-
-
             };
-
 
             foreach (User user in users)
             {
@@ -72,29 +55,57 @@ namespace TwitterCloneAPI.Data.Repository
         public void InitializeTweets()
         {
             List<Tweet> tweets = new List<Tweet>() {
-                  new Tweet() { Content = "What is 'real'? How do you define 'real'? If you’re talking about what you can feel, what you can smell, taste and see then 'real' is simply electrical signals interpreted by your brain.",
-                      Hashtag = "woke", UserId = 6, Date = new DateTime(2020, 2, 3, 23, 24, 54).ToString() },
-                  new Tweet() { Content = "Remember, all I’m offering is the truth. Nothing more.",
-                      Hashtag = "woke",  UserId = 6, Date = new DateTime(2020, 2, 19, 22, 49, 37).ToString() },
-                  new Tweet() { Content = "I´m in.",
-                      Hashtag = "badass", UserId = 2, Date = new DateTime(2020, 2, 22, 19, 24, 6).ToString() },
-                  new Tweet() { Content = "I know Kung-Fu!",
-                      Hashtag = "badass",  UserId = 1, Date = new DateTime(2020, 3, 4, 14, 22, 48).ToString() },
-                  new Tweet() { Content = "Ignorance is bliss",
-                      Hashtag = "slept",  UserId = 3, Date = new DateTime(2020, 3, 16, 11, 32, 12).ToString() },
-                  new Tweet() { Content = "You hear that Mr. Anderson? That is the sound of inevitability!",
-                      Hashtag = "woke",  UserId = 7, Date = new DateTime(2020, 4, 13, 17, 47, 16).ToString() },
-                  new Tweet() { Content = "I know what you’re thinking, ’cause right now I’m thinking the same thing. Actually, I’ve been thinking it ever since I got here: Why oh why didn’t I take the blue pill?",
-                      Hashtag = "woke",  UserId = 3, Date = new DateTime(2020, 4, 20, 9, 41, 20).ToString() },
-                  new Tweet() { Content = "I know why you're here, Neo. I know what you've been doing... why you hardly sleep, why you live alone, and why night after night, you sit by your computer. You're looking for him.",
-                      Hashtag = "woke",  UserId = 2, Date = new DateTime(2020, 5, 10, 7, 22, 34).ToString() },
-                  new Tweet() { Content = "Hope. It is the quintessential human delusion, simultaneously the source of your greatest strength and your greatest weakness",
-                      Hashtag = "woke",  UserId = 4, Date = new DateTime(2020, 5, 15, 8, 5, 10).ToString() },
-                  new Tweet() { Content = "Everything that has a beginning has an end. I see the end coming. I see the darkness spreading. I see death. And you are all that stands in his way.",
-                      Hashtag = "woke", UserId = 5, Date = new DateTime(2020, 6, 1, 7, 47, 0).ToString() },
-
+                  new Tweet() { 
+                      Content = "What is 'real'? How do you define 'real'? If you’re talking about what you can feel, what you can smell, taste and see then 'real' is simply electrical signals interpreted by your brain.",
+                      Hashtag = "woke", 
+                      UserId = 6, 
+                      Date = new DateTime(2020, 2, 3, 23, 24, 54).ToString() },
+                  new Tweet() { 
+                      Content = "Remember, all I’m offering is the truth. Nothing more.",
+                      Hashtag = "woke",  
+                      UserId = 6, 
+                      Date = new DateTime(2020, 2, 19, 22, 49, 37).ToString() },
+                  new Tweet() { 
+                      Content = "I´m in.",
+                      Hashtag = "badass", 
+                      UserId = 2, 
+                      Date = new DateTime(2020, 2, 22, 19, 24, 6).ToString() },
+                  new Tweet() { 
+                      Content = "I know Kung-Fu!",
+                      Hashtag = "badass",  
+                      UserId = 1, 
+                      Date = new DateTime(2020, 3, 4, 14, 22, 48).ToString() },
+                  new Tweet() { 
+                      Content = "Ignorance is bliss",
+                      Hashtag = "slept",  
+                      UserId = 3, 
+                      Date = new DateTime(2020, 3, 16, 11, 32, 12).ToString() },
+                  new Tweet() { 
+                      Content = "You hear that Mr. Anderson? That is the sound of inevitability!",
+                      Hashtag = "woke",  
+                      UserId = 7, 
+                      Date = new DateTime(2020, 4, 13, 17, 47, 16).ToString() },
+                  new Tweet() { 
+                      Content = "I know what you’re thinking, ’cause right now I’m thinking the same thing. Actually, I’ve been thinking it ever since I got here: Why oh why didn’t I take the blue pill?",
+                      Hashtag = "woke",  
+                      UserId = 3, 
+                      Date = new DateTime(2020, 4, 20, 9, 41, 20).ToString() },
+                  new Tweet() { 
+                      Content = "I know why you're here, Neo. I know what you've been doing... why you hardly sleep, why you live alone, and why night after night, you sit by your computer. You're looking for him.",
+                      Hashtag = "woke",  
+                      UserId = 2, 
+                      Date = new DateTime(2020, 5, 10, 7, 22, 34).ToString() },
+                  new Tweet() { 
+                      Content = "Hope. It is the quintessential human delusion, simultaneously the source of your greatest strength and your greatest weakness",
+                      Hashtag = "woke",  
+                      UserId = 4, 
+                      Date = new DateTime(2020, 5, 15, 8, 5, 10).ToString() },
+                  new Tweet() { 
+                      Content = "Everything that has a beginning has an end. I see the end coming. I see the darkness spreading. I see death. And you are all that stands in his way.",
+                      Hashtag = "woke", 
+                      UserId = 5, 
+                      Date = new DateTime(2020, 6, 1, 7, 47, 0).ToString() },
             };
-
 
             foreach (Tweet tweet in tweets)
             {
@@ -112,16 +123,24 @@ namespace TwitterCloneAPI.Data.Repository
         public void InitializeReplies()
         {
             List<Reply> replies = new List<Reply>() {
-                  new Reply() { Content = "This is not",
-                     UserId = 6, TweetId = 1, Recipient = "@shepherd", Date = new DateTime(2020, 2, 3, 23, 54, 44).ToString() },
-                  new Reply() { Content = "Skelter!",
-                      UserId = 2, TweetId = 2, Recipient = "@shepherd", Date = new DateTime(2020, 2, 19, 23, 42, 22).ToString() },
+                  new Reply() {
+                      Content = "This is not",
+                      UserId = 6, 
+                      TweetId = 1, 
+                      Recipient = "@shepherd", 
+                      Date = new DateTime(2020, 2, 3, 23, 54, 44).ToString() },
+                  new Reply() { 
+                      Content = "Skelter!",
+                      UserId = 2, 
+                      TweetId = 2, 
+                      Recipient = "@shepherd", 
+                      Date = new DateTime(2020, 2, 19, 23, 42, 22).ToString() },
                   new Reply() { Content = "Sappy...",
-                      UserId = 7, TweetId = 3, Recipient = "@falconhoof", Date = new DateTime(2020, 2, 22, 20, 33, 8).ToString() },
-
-
+                      UserId = 7, 
+                      TweetId = 3, 
+                      Recipient = "@falconhoof", 
+                      Date = new DateTime(2020, 2, 22, 20, 33, 8).ToString() },
             };
-
 
             foreach (Reply reply in replies)
             {
@@ -147,9 +166,7 @@ namespace TwitterCloneAPI.Data.Repository
                   new ReplyLike() { UserId = 3, ReplyId = 2 },
                   new ReplyLike() { UserId = 4, ReplyId = 3 },
                   new ReplyLike() { UserId = 4, ReplyId = 3 },
-
             };
-
 
             foreach (ReplyLike like in replyLikes)
             {
@@ -193,7 +210,6 @@ namespace TwitterCloneAPI.Data.Repository
                   new TweetLike() { UserId = 4, TweetId = 10 },
                   new TweetLike() { UserId = 5, TweetId = 10 },
             };
-
 
             foreach (TweetLike like in tweetLikes)
             {
@@ -249,14 +265,13 @@ namespace TwitterCloneAPI.Data.Repository
                     _dbContext.Follows.Add(f);
                     _dbContext.SaveChanges();
                 }
-
-                
             }
         }
-
+        /* Initialization END*/
 
         // User
         public async Task<List<UserDTO>> GetAllUsersAsync()
+            /* Returns an array of Users excluding some properties */
         {
             using var db = _dbContext;
             List<User> users = await db.Users.ToListAsync();
@@ -282,6 +297,7 @@ namespace TwitterCloneAPI.Data.Repository
         }
 
         public async Task<UserDTO> GetUserByHandleAsync(string handle)
+            /* Returns first or default User including all properties */
         {
             using var db = _dbContext;
             User u = await db.Users
@@ -314,6 +330,7 @@ namespace TwitterCloneAPI.Data.Repository
         }
 
         public async Task<UserDTO> GetUserByIdAsync(int id)
+            /* Returns first or default User including all properties */
         {
             using var db = _dbContext;
             User u = await db.Users
@@ -341,6 +358,7 @@ namespace TwitterCloneAPI.Data.Repository
         }
 
         public async Task CreateUserAsync(User user)
+            /* Creates User if Name and Handle aren't taken */
         {
             using var db = _dbContext;
 
@@ -358,6 +376,7 @@ namespace TwitterCloneAPI.Data.Repository
         }
 
         public async Task<User> UpdateUserAsync(int id, User user)
+            /* Updates Name, Handle and Color of a User */
         {
             using var db = _dbContext;
             User res = await db.Users.FirstOrDefaultAsync(x => x.Id == id);
@@ -369,12 +388,15 @@ namespace TwitterCloneAPI.Data.Repository
 
             res.Name = user.Name;
             res.Handle = user.Handle;
+            res.Color = user.Color;
+
 
             await db.SaveChangesAsync();
             return res;
         }
 
         public async Task<User> UpdateUserFollowsAsync(int id, User user)
+            /* Adds or removes a Follow */
         {
             using var db = _dbContext;
             User res = await db.Users.FirstOrDefaultAsync(x => x.Id == id);
@@ -411,6 +433,8 @@ namespace TwitterCloneAPI.Data.Repository
         }
 
         public async Task<bool> DeleteUserAsync(int id)
+            /* Deletes User after deleting anything associated
+            (follows, likes, replies, tweets) in order. */
         {
             using var db = _dbContext;
             User res = await db.Users.FirstOrDefaultAsync(x => x.Id == id);
@@ -420,48 +444,28 @@ namespace TwitterCloneAPI.Data.Repository
                 return false;
             } else
             {
-                var userFollowers= db.Follows.Where(x => x.UserId == res.Id).ToList();
+                var userFollowers = db.Follows.Where(x => x.UserId == res.Id).ToList();
                 foreach (var followers in userFollowers)
                 {
                     db.Follows.Remove(followers);
-
                 }
 
                 var userFollows = db.Follows.Where(x => x.FollowerId == res.Id).ToList();
                 foreach (var follow in userFollows)
                 {
                     db.Follows.Remove(follow);
-
                 }
 
                 var userTweetLikes = db.TweetLikes.Where(x => x.UserId == res.Id).ToList();
                 foreach (var like in userTweetLikes)
                 {
                     db.TweetLikes.Remove(like);
-
                 }
 
                 var userReplyLikes = db.ReplyLikes.Where(x => x.UserId == res.Id).ToList();
                 foreach (var like in userReplyLikes)
                 {
                     db.ReplyLikes.Remove(like);
-
-                }
-
-
-                var tweets = db.Tweets.Where(x => x.UserId == res.Id).ToList();
-                foreach (var tweet in tweets)
-                {
-                    var tweetLikes = db.TweetLikes.Where(x => x.TweetId == tweet.Id).ToList();
-                    foreach (var like in tweetLikes)
-                    {
-                        db.TweetLikes.Remove(like);
-
-                    }
-
-
-                    db.Tweets.Remove(tweet);
-
                 }
 
                 var replies = db.Replies.Where(x => x.UserId == res.Id).ToList();
@@ -472,36 +476,43 @@ namespace TwitterCloneAPI.Data.Repository
                     {
                         db.ReplyLikes.Remove(like);
                     }
-
-
                     db.Replies.Remove(reply);
+                }
 
-
+                var tweets = db.Tweets.Where(x => x.UserId == res.Id).ToList();
+                foreach (var tweet in tweets)
+                {
+                    var tweetLikes = db.TweetLikes.Where(x => x.TweetId == tweet.Id).ToList();
+                    foreach (var like in tweetLikes)
+                    {
+                        db.TweetLikes.Remove(like);
+                    }
+                    db.Tweets.Remove(tweet);
                 }
 
                 db.Users.Remove(res);
-
                 await db.SaveChangesAsync();
                 return true;
-
             }
         }
 
-
         // Tweet
         public async Task<List<Tweet>> GetAllTweetsAsync()
+            /* Returns an array of Tweets including all properties*/
         {
             using var db = _dbContext;
             return await db.Tweets.Include(x => x.Replies).Include(x => x.TweetLikes).ToListAsync();
         }
 
         public async Task<Tweet> GetTweetByIdAsync(int id)
+            /* Returns first or default Tweet including all properties */
         {
             using var db = _dbContext;
             return await db.Tweets.Include(x => x.Replies).Include(x => x.TweetLikes).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task CreateTweetAsync(Tweet tweet)
+            /* Creates Tweet */
         {
             using var db = _dbContext;
             await db.Tweets.AddAsync(tweet);
@@ -509,6 +520,7 @@ namespace TwitterCloneAPI.Data.Repository
         }
 
         public async Task<Tweet> UpdateTweetContentAsync(int id, Tweet tweet)
+            /* Updates Content of a Tweet*/
         {
             using var db = _dbContext;
             Tweet res = await db.Tweets.FirstOrDefaultAsync(x => x.Id == id);
@@ -524,6 +536,7 @@ namespace TwitterCloneAPI.Data.Repository
         }
 
         public async Task<Tweet> UpdateTweetLikesAsync(int id, User user)
+            /* Adds or removes a Like on a Tweet */
         {
             using var db = _dbContext;
             Tweet res = await db.Tweets.FirstOrDefaultAsync(x => x.Id == id);
@@ -558,10 +571,11 @@ namespace TwitterCloneAPI.Data.Repository
             return res;
         }
         public async Task<bool> DeleteTweetAsync(int id)
+            /* Deletes Tweet after deleting anything associated
+            (likes, replies) in order. */
         {
             using var db = _dbContext;
             Tweet res = await db.Tweets.FirstOrDefaultAsync(x => x.Id == id);
-
 
             if (res == null)
             {
@@ -584,37 +598,32 @@ namespace TwitterCloneAPI.Data.Repository
                     {
                         db.ReplyLikes.Remove(like);
                     }
-
-
                     db.Replies.Remove(reply);
-
-
                 }
 
                 db.Tweets.Remove(res);
-
                 await db.SaveChangesAsync();
                 return true;
             }
         }
 
-
-
         // Reply
-
         public async Task<List<Reply>> GetAllRepliesAsync()
+            /* Returns an array of Replies including all properties */
         {
             using var db = _dbContext;
             return await db.Replies.Include(x => x.ReplyLikes).ToListAsync();
         }
         
         public async Task<Reply> GetReplyByIdAsync(int id)
+            /* Returns first or default Reply including all properties */
         {
             using var db = _dbContext;
             return await db.Replies.Include(x => x.ReplyLikes).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task CreateReplyAsync(Reply reply)
+            /* Creates Reply */
         {
             using var db = _dbContext;
             await db.Replies.AddAsync(reply);
@@ -622,6 +631,7 @@ namespace TwitterCloneAPI.Data.Repository
         }
 
         public async Task<Reply> UpdateReplyContentAsync(int id, Reply reply)
+            /* Updates Content of a Reply */
         {
             using var db = _dbContext;
             Reply res = await db.Replies.FirstOrDefaultAsync(x => x.Id == id);
@@ -637,6 +647,7 @@ namespace TwitterCloneAPI.Data.Repository
         }
 
         public async Task<Reply> UpdateReplyLikesAsync(int id, User user)
+            /* Adds or removes a Like on a Reply */
         {
             using var db = _dbContext;
             Reply res = await db.Replies.FirstOrDefaultAsync(x => x.Id == id);
@@ -673,6 +684,8 @@ namespace TwitterCloneAPI.Data.Repository
         }
 
         public async Task<bool> DeleteReplyAsync(int id)
+            /* Deletes Reply after deleting anything associated
+            (likes) in order. */
         {
             using var db = _dbContext;
             Reply res = await db.Replies.FirstOrDefaultAsync(x => x.Id == id);
@@ -698,6 +711,7 @@ namespace TwitterCloneAPI.Data.Repository
 
         // Follows
         public async Task<List<Follow>> GetAllFollowsAsync()
+            /* Returns an array of Follows */
         {
             using var db = _dbContext;
             return await db.Follows.ToListAsync();
