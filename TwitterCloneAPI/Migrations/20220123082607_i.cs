@@ -2,7 +2,7 @@
 
 namespace TwitterCloneAPI.Migrations
 {
-    public partial class _01 : Migration
+    public partial class i : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
