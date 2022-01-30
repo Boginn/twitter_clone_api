@@ -16,14 +16,20 @@ namespace TwitterCloneAPI.Data.Repository
         public TwitterRepository()
         {
             _dbContext = new TwitterDatabaseContext();
-            /*
+
+
+            /* Run this code once, then comment it out again */
+
+            
                 InitializeUsers();
                 InitializeTweets();
                 InitializeReplies();
                 InitializeTweetLikes();
                 InitializeReplyLikes();
                 InitializeFollows();
-            */
+            
+
+            /* */
         }
 
         public void InitializeUsers()
